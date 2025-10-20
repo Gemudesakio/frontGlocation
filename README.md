@@ -1,16 +1,46 @@
-# React + Vite
+Frontend – Glocation Projects (React + Vite + Tailwind)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SPA para gestionar proyectos (listar, crear, editar, eliminar), ver estadísticas (gráfico) y un resumen generado desde el backend.
 
-Currently, two official plugins are available:
+Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Node.js 18+ (recomendado 20 LTS)
 
-## React Compiler
+npm 9+
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Backend corriendo en http://localhost:8080
 
-## Expanding the ESLint configuration
+Endpoints que usa el frontend:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+GET /api/projects/all
+
+POST /api/projects/create
+
+PUT /api/projects/update/:id
+
+DELETE /api/projects/deleteParam/:id
+
+GET /api/projects/graphics (estadísticas)
+
+GET /api/projects/summary (resumen IA)
+
+Clonar e instalar
+git clone https://github.com/<tu-usuario>/<tu-repo-frontend>.git
+cd <tu-repo-frontend>
+npm install
+
+Configurar la URL del backend
+
+Si tu backend no corre en http://localhost:8080, edita este archivo:
+
+// src/services/api.js
+import axios from 'axios'
+
+const api = axios.create({
+  baseURL: 'http://localhost:8080/api', // ← cambia esta URL si tu backend usa otra
+})
+
+export default api
+
+Ejecutar en desarrollo
+npm run dev
