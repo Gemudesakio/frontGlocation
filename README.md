@@ -1,46 +1,96 @@
-Frontend – Glocation Projects (React + Vite + Tailwind)
+💻 FRONTEND
+Glocation Projects — React + Vite + Tailwind
+Descripción general
 
-SPA para gestionar proyectos (listar, crear, editar, eliminar), ver estadísticas (gráfico) y un resumen generado desde el backend.
+SPA para gestionar proyectos: listar, crear, editar y eliminar.
+Consume la API REST del backend y muestra información adicional como estadísticas y resumen de proyectos.
 
-Requisitos
+⚙️ Instalación y ejecución
+1. Requisitos previos
 
 Node.js 18+ (recomendado 20 LTS)
 
 npm 9+
 
-Backend corriendo en http://localhost:8080
+Backend en ejecución en http://localhost:8080
 
-Endpoints que usa el frontend:
-
-GET /api/projects/all
-
-POST /api/projects/create
-
-PUT /api/projects/update/:id
-
-DELETE /api/projects/deleteParam/:id
-
-GET /api/projects/graphics (estadísticas)
-
-GET /api/projects/summary (resumen IA)
-
-Clonar e instalar
+2. Clonar e instalar
 git clone https://github.com/<tu-usuario>/<tu-repo-frontend>.git
 cd <tu-repo-frontend>
 npm install
 
-Configurar la URL del backend
+3. Configurar API base
 
-Si tu backend no corre en http://localhost:8080, edita este archivo:
+Si tu backend usa otro puerto o dominio, modifica src/services/api.js:
 
-// src/services/api.js
-import axios from 'axios'
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api', // ← cambia esta URL si tu backend usa otra
-})
+  baseURL: "http://localhost:8080/api", // Cambiar si tu backend está en otra URL
+});
 
-export default api
+export default api;
 
-Ejecutar en desarrollo
+4. Ejecutar en desarrollo
 npm run dev
+
+
+Aplicación disponible en:
+http://localhost:5173
+
+🧠 Decisiones técnicas
+
+Vite para rendimiento y recarga instantánea.
+
+React Router DOM para navegación SPA.
+
+Redux Toolkit para gestión global del estado.
+
+Axios con interceptores para llamadas seguras al backend.
+
+React Hook Form para formularios simples y validaciones ligeras.
+
+Tailwind CSS para un diseño rápido y responsivo.
+
+🔗 Endpoints consumidos
+Método	Endpoint	Uso en frontend
+GET	/api/projects/all	Listar proyectos
+POST	/api/projects/create	Crear proyecto
+PUT	/api/projects/update/:id	Editar proyecto
+DELETE	/api/projects/deleteParam/:id	Eliminar proyecto
+GET	/api/projects/graphics	Estadísticas
+GET	/api/projects/summary	Resumen IA (si se implementa)
+📘 Ejemplo de integración
+// src/features/projects/api.js
+import api from "../../services/api";
+
+export const getProjects = async () => {
+  const { data } = await api.get("/projects/all");
+  return data.response;
+};
+
+export const createProject = async (project) => {
+  const { data } = await api.post("/projects/create", project);
+  return data.response;
+};
+
+
+Ejemplo de respuesta:
+
+{
+  "success": true,
+  "message": "Proyectos obtenidos correctamente",
+  "response": [
+    {
+      "id": 1,
+      "nombre": "Sistema de reservas",
+      "estado": true
+    }
+  ]
+}
+
+Autor
+
+Luis Eduardo Rivera Martos
+Desarrollador Full-Stack
+Universidad del Cauca — Popayán, Colombia
