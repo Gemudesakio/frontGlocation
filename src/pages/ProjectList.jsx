@@ -3,7 +3,7 @@ import { Edit, Trash2, Plus } from 'lucide-react'
 import useProjects from '../hooks/useProjects'
 import EditModal from '../components/EditModal'
 import CreateModal from '../components/CreateModal'
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts'
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell} from 'recharts'
 import ReactMarkdown from 'react-markdown'
 function ProjectList() {
     const {
@@ -21,7 +21,7 @@ function ProjectList() {
     const [showCreateModal, setShowCreateModal] = useState(false)
     const { summary, loading: loadingSummary, error: errorSummary } = useProjectSummary();
 
-
+   
     const chartData = stats
     ? [
         { estado: 'Finalizados', cantidad: stats.finalizados },
@@ -53,7 +53,7 @@ function ProjectList() {
                 <XAxis dataKey="estado" />
                 <YAxis allowDecimals={false} />
                 <Tooltip />
-                <Bar dataKey="cantidad" fill="#3b82f6" />
+                <Bar dataKey="cantidad" fill="green" />
                 </BarChart>
             </ResponsiveContainer>
             </div>

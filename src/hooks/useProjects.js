@@ -33,6 +33,7 @@ const useProjects = () => {
     try {
         await deleteProject(id);
         setProjects((prev) => prev.filter((p) => p.id !== id))
+        await fetchStats()
     } catch (err) {
         setError(err)
     }
