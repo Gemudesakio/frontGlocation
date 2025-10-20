@@ -24,3 +24,8 @@ export const getProjectStats = async () => {
     const res = await api.get('/projects/graphics');
     return res.data.stats;
 };
+
+export const getSummary = async () => {
+    const response = await api.get('/projects/summary');
+    return response.data.resumen;
+};

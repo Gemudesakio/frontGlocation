@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import {getAllProjects, deleteProject, updateProject, createProject,getProjectStats} from '../services/projectService'
+import {getAllProjects, deleteProject, updateProject, createProject,getProjectStats, getSummary} from '../services/projectService'
+import ReactMarkdown from 'react-markdown'
 
 const useProjects = () => {
     const [projects, setProjects] = useState([])
@@ -60,10 +61,24 @@ const handleCreate = async (data) => {
     console.error('Error al crear proyecto:', err)
     }
 };
+const useProjectSummary = () => {
+    const [summary, setSummary] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+    getSummary()
+        .then(setSummary)
+        .catch(setError)
+        .finally(() => setLoading(false));
+    }, []);
+
+    return { summary, loading, error };
+};
 
 
 
-    return { projects, stats, loading, error, handleDelete, handleEditSubmit, handleCreate }
+    return { projects, stats, loading, error, handleDelete, handleEditSubmit, handleCreate, useProjectSummary }
 };
 
 export default useProjects

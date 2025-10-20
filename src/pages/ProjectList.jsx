@@ -3,16 +3,8 @@ import { Edit, Trash2, Plus } from 'lucide-react'
 import useProjects from '../hooks/useProjects'
 import EditModal from '../components/EditModal'
 import CreateModal from '../components/CreateModal'
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer,
-} from 'recharts'
-
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts'
+import ReactMarkdown from 'react-markdown'
 function ProjectList() {
     const {
     projects,
@@ -22,10 +14,13 @@ function ProjectList() {
     handleDelete,
     handleEditSubmit,
     handleCreate,
+    useProjectSummary
     } = useProjects()
 
     const [selected, setSelected] = useState(null)
     const [showCreateModal, setShowCreateModal] = useState(false)
+    const { summary, loading: loadingSummary, error: errorSummary } = useProjectSummary();
+
 
     const chartData = stats
     ? [
@@ -63,6 +58,16 @@ function ProjectList() {
             </ResponsiveContainer>
             </div>
         )}
+
+        <div className="mb-8 bg-white p-4 rounded shadow max-w-4xl mx-auto">
+            <h2 className="text-lg font-semibold text-blue-800 mb-2">Resumen general</h2>
+            {loadingSummary && <p className="text-gray-500">Cargando resumen...</p>}
+            {errorSummary && <p className="text-red-500">Error al cargar resumen</p>}
+            {!loadingSummary && !errorSummary && (
+                <div className="text-sm text-gray-700 whitespace-pre-line"> <ReactMarkdown>{summary}</ReactMarkdown></div>
+            )}
+        </div>
+
 
         <ul className="space-y-6">
             {projects.map((p) => (
