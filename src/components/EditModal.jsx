@@ -1,115 +1,118 @@
 import { useState, useEffect } from 'react';
 
 function EditModal({ project, onClose, onSubmit }) {
-    const [form, setForm] = useState({
+  const [form, setForm] = useState({
     nombre: project.nombre || '',
     descripcion: project.descripcion || '',
     fechaInicio: project.fechaInicio?.split('T')[0] || '',
     fechaFin: project.fechaFin?.split('T')[0] || '',
     estado: project.estado || false,
-    });
+  });
 
-    useEffect(() => {
+  // bloquear scroll del body
+  useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = prev || ''; };
-    }, []);
+  }, []);
 
-    useEffect(() => {
+  // cerrar con ESC
+  useEffect(() => {
     const onEsc = (e) => e.key === 'Escape' && onClose();
     document.addEventListener('keydown', onEsc);
     return () => document.removeEventListener('keydown', onEsc);
-    }, [onClose]);
+  }, [onClose]);
 
-    const handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
-    };
+  };
 
-    const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(project.id, form);
     onClose();
-    };
+  };
 
-    return (
+  return (
     <div
-        className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px]"
-        onClick={onClose}
-        role="dialog" aria-modal="true"
+      className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px]"
+      onClick={onClose}
+      role="dialog" aria-modal="true"
     >
-        <div className="flex h-full w-full items-end sm:items-center sm:justify-center">
+      {/* bottom-sheet en móvil, centrado en sm+ */}
+      <div className="flex h-full w-full items-end sm:items-center sm:justify-center">
         <div
-            className="w-full sm:w-auto sm:max-w-md bg-white shadow-xl
-                        rounded-t-2xl sm:rounded-xl
-                        mx-0 sm:mx-4
-                        max-h-[80svh] sm:max-h-[85vh]
-                        overflow-y-auto overflow-x-hidden
-                        p-4 sm:p-6"
-            onClick={(e) => e.stopPropagation()}
+          className="w-full sm:w-auto sm:max-w-md bg-white shadow-xl
+                     rounded-t-2xl sm:rounded-xl
+                     mx-0 sm:mx-4
+                     max-h-[80svh] sm:max-h-[85vh]
+                     overflow-y-auto overflow-x-hidden
+                     p-4 sm:p-6"
+          onClick={(e) => e.stopPropagation()}
         >
-            <div className="sm:hidden mx-auto mb-3 h-1.5 w-12 rounded-full bg-gray-300" />
+          <div className="sm:hidden mx-auto mb-3 h-1.5 w-12 rounded-full bg-gray-300" />
 
-            <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-bold">Editar Proyecto</h2>
             <button onClick={onClose} className="text-gray-500 hover:text-black">✕</button>
-            </div>
+          </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <input
-                name="nombre"
-                value={form.nombre}
-                onChange={handleChange}
-                placeholder="Nombre"
-                className="w-full min-w-0 border rounded p-2"
+              name="nombre"
+              value={form.nombre}
+              onChange={handleChange}
+              placeholder="Nombre"
+              className="w-full min-w-0 border rounded p-2"
             />
             <textarea
-                name="descripcion"
-                value={form.descripcion}
-                onChange={handleChange}
-                placeholder="Descripción"
-                className="w-full min-w-0 border rounded p-2 min-h-[96px]"
+              name="descripcion"
+              value={form.descripcion}
+              onChange={handleChange}
+              placeholder="Descripción"
+              className="w-full min-w-0 border rounded p-2 min-h-[96px]"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <input
+              <input
                 type="date"
                 name="fechaInicio"
                 value={form.fechaInicio}
                 onChange={handleChange}
                 className="w-full min-w-0 border rounded p-2"
-                />
-                <input
+              />
+              <input
                 type="date"
                 name="fechaFin"
                 value={form.fechaFin}
                 onChange={handleChange}
                 className="w-full min-w-0 border rounded p-2"
-                />
+              />
             </div>
 
             <label className="flex items-center gap-2">
-                <input
+              <input
                 type="checkbox"
                 name="estado"
                 checked={form.estado}
                 onChange={handleChange}
-                />
-                <span>{form.estado ? 'Finalizado' : 'En proceso'}</span>
+              />
+              <span>{form.estado ? 'Finalizado' : 'En proceso'}</span>
             </label>
 
             <div className="flex justify-end">
-                <button
+              <button
                 type="submit"
                 className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
+              >
                 Guardar Cambios
-                </button>
+              </button>
             </div>
-            </form>
+          </form>
         </div>
-        </div>
+      </div>
     </div>
-    );
+  );
 }
 
 export default EditModal;
