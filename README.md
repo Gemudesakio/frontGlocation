@@ -46,10 +46,6 @@ React Router DOM para navegación SPA.
 
 Redux Toolkit para gestión global del estado.
 
-Axios con interceptores para llamadas seguras al backend.
-
-React Hook Form para formularios simples y validaciones ligeras.
-
 Tailwind CSS para un diseño rápido y responsivo.
 
 🔗 Endpoints consumidos
